@@ -28,3 +28,24 @@ try:
     print("Banco populado com sucesso!")
 except Exception as e:
     print("Erro ao popular o banco:", e)
+
+
+cursor.execute('''
+CREATE VIEW IF NOT EXISTS resumo_bairro AS
+SELECT
+    location AS bairro,
+    listed_city AS cidade,
+    COUNT(*) AS total_restaurantes,
+    ROUND(AVG(rate), 2) AS media_avaliacao,
+    SUM(votes) AS total_votos,
+    ROUND(AVG(approx_cost), 2) AS custo_medio_para_dois
+FROM
+    restaurantes
+GROUP BY
+    location, listed_city
+ORDER BY
+    total_restaurantes DESC
+''')
+
+conn.commit()
+conn.close()
