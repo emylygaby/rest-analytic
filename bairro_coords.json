@@ -1,0 +1,368 @@
+{
+  "Banashankari": {
+    "lat": 12.9393328,
+    "lon": 77.5539819
+  },
+  "Basavanagudi": {
+    "lat": 12.9417261,
+    "lon": 77.5755021
+  },
+  "Mysore Road": {
+    "lat": 12.9568964,
+    "lon": 77.5496431
+  },
+  "Jayanagar": {
+    "lat": 12.9399039,
+    "lon": 77.5826382
+  },
+  "Kumaraswamy Layout": {
+    "lat": 12.9067683,
+    "lon": 77.5595021
+  },
+  "Rajarajeshwari Nagar": {
+    "lat": 12.9274413,
+    "lon": 77.5155224
+  },
+  "Vijay Nagar": {
+    "lat": 12.9660722,
+    "lon": 77.6125941
+  },
+  "Uttarahalli": {
+    "lat": 12.9055682,
+    "lon": 77.5455438
+  },
+  "JP Nagar": {
+    "lat": 12.9096941,
+    "lon": 77.5866067
+  },
+  "South Bangalore": {
+    "lat": 12.8641071,
+    "lon": 77.5544164
+  },
+  "City Market": {
+    "lat": 12.965718,
+    "lon": 77.5762705
+  },
+  "Nagarbhavi": {
+    "lat": 12.9819569,
+    "lon": 77.5183741
+  },
+  "Bannerghatta Road": {
+    "lat": 12.9526598,
+    "lon": 77.605048
+  },
+  "BTM": {
+    "lat": 12.9163603,
+    "lon": 77.604733
+  },
+  "Kanakapura Road": {
+    "lat": 12.939098,
+    "lon": 77.5753316
+  },
+  "Bommanahalli": {
+    "lat": 13.1273532,
+    "lon": 77.359826
+  },
+  "CV Raman Nagar": {
+    "lat": 12.9850987,
+    "lon": 77.6631173
+  },
+  "Electronic City": {
+    "lat": 12.8487599,
+    "lon": 77.648253
+  },
+  "HSR": {
+    "lat": 12.9005634,
+    "lon": 77.6494747
+  },
+  "Marathahalli": {
+    "lat": 12.9552572,
+    "lon": 77.6984163
+  },
+  "Sarjapur Road": {
+    "lat": 12.9240113,
+    "lon": 77.6530982
+  },
+  "Wilson Garden": {
+    "lat": 12.9489339,
+    "lon": 77.5968273
+  },
+  "Shanti Nagar": {
+    "lat": 12.9555367,
+    "lon": 77.5924278
+  },
+  "Koramangala 5th Block": {
+    "lat": 12.9348429,
+    "lon": 77.6189768
+  },
+  "Koramangala 8th Block": {
+    "lat": 12.9408685,
+    "lon": 77.617338
+  },
+  "Richmond Road": {
+    "lat": 12.9657678,
+    "lon": 77.6038622
+  },
+  "Koramangala 7th Block": {
+    "lat": 12.9364846,
+    "lon": 77.6134783
+  },
+  "Jalahalli": {
+    "lat": 13.0394104,
+    "lon": 77.5197351
+  },
+  "Koramangala 4th Block": {
+    "lat": 12.9327778,
+    "lon": 77.6294052
+  },
+  "Bellandur": {
+    "lat": 12.9253525,
+    "lon": 77.6759411
+  },
+  "Whitefield": {
+    "lat": 12.9696365,
+    "lon": 77.7497448
+  },
+  "East Bangalore": {
+    "lat": 12.9739905,
+    "lon": 77.6144901
+  },
+  "Old Airport Road": {
+    "lat": 12.9606321,
+    "lon": 77.6424997
+  },
+  "Indiranagar": {
+    "lat": 12.9962979,
+    "lon": 77.5452778
+  },
+  "Koramangala 1st Block": {
+    "lat": 12.9277245,
+    "lon": 77.6327822
+  },
+  "Frazer Town": {
+    "lat": 12.9975851,
+    "lon": 77.6136744
+  },
+  "RT Nagar": {
+    "lat": 13.0227204,
+    "lon": 77.595715
+  },
+  "MG Road": {
+    "lat": 12.9755264,
+    "lon": 77.6067902
+  },
+  "Brigade Road": {
+    "lat": 12.971609,
+    "lon": 77.6070463
+  },
+  "Lavelle Road": {
+    "lat": 12.9749682,
+    "lon": 77.5997302
+  },
+  "Church Street": {
+    "lat": 12.9757001,
+    "lon": 77.6020831
+  },
+  "Ulsoor": {
+    "lat": 12.9778793,
+    "lon": 77.6246697
+  },
+  "Residency Road": {
+    "lat": 12.9666878,
+    "lon": 77.5987471
+  },
+  "Shivajinagar": {
+    "lat": 12.9855286,
+    "lon": 77.6054496
+  },
+  "Infantry Road": {
+    "lat": 12.982005,
+    "lon": 77.5992545
+  },
+  "St. Marks Road": {
+    "lat": 12.9758014,
+    "lon": 77.6016924
+  },
+  "Cunningham Road": {
+    "lat": 12.9884255,
+    "lon": 77.5938978
+  },
+  "Race Course Road": {
+    "lat": 12.9836517,
+    "lon": 77.5774721
+  },
+  "Commercial Street": {
+    "lat": 12.9822423,
+    "lon": 77.608265
+  },
+  "Vasanth Nagar": {
+    "lat": 12.9921738,
+    "lon": 77.591459
+  },
+  "HBR Layout": {
+    "lat": 13.031992,
+    "lon": 77.6280789
+  },
+  "Domlur": {
+    "lat": 12.9624669,
+    "lon": 77.6381958
+  },
+  "Ejipura": {
+    "lat": 12.946605,
+    "lon": 77.6289077
+  },
+  "Jeevan Bhima Nagar": {
+    "lat": 12.9678074,
+    "lon": 77.6568367
+  },
+  "Old Madras Road": {
+    "lat": 12.9844692,
+    "lon": 77.6414925
+  },
+  "Malleshwaram": {
+    "lat": 13.0027353,
+    "lon": 77.5703253
+  },
+  "Seshadripuram": {
+    "lat": 12.9931876,
+    "lon": 77.5753419
+  },
+  "Kammanahalli": {
+    "lat": 13.0148544,
+    "lon": 77.6382029
+  },
+  "Koramangala 6th Block": {
+    "lat": 12.9390255,
+    "lon": 77.6238477
+  },
+  "Majestic": {
+    "lat": 12.9779079,
+    "lon": 77.5723936
+  },
+  "Langford Town": {
+    "lat": 12.957998,
+    "lon": 77.6037312
+  },
+  "Central Bangalore": {
+    "lat": 12.9896451,
+    "lon": 77.5727101
+  },
+  "Sanjay Nagar": {
+    "lat": 12.9578658,
+    "lon": 77.6958748
+  },
+  "Brookefield": {
+    "lat": 12.9652094,
+    "lon": 77.717936
+  },
+  "ITPL Main Road, Whitefield": {
+    "lat": 12.9876393,
+    "lon": 77.7377718
+  },
+  "Varthur Main Road, Whitefield": {
+    "lat": 12.9567133,
+    "lon": 77.7452082
+  },
+  "KR Puram": {
+    "lat": 13.007516,
+    "lon": 77.695935
+  },
+  "Koramangala 2nd Block": {
+    "lat": 12.9243692,
+    "lon": 77.6242433
+  },
+  "Koramangala 3rd Block": {
+    "lat": 12.9282918,
+    "lon": 77.6254034
+  },
+  "Koramangala": {
+    "lat": 12.9581648,
+    "lon": 77.6414271
+  },
+  "Hosur Road": {
+    "lat": 12.9614145,
+    "lon": 77.6066209
+  },
+  "Rajajinagar": {
+    "lat": 13.0005359,
+    "lon": 77.5496996
+  },
+  "Banaswadi": {
+    "lat": 13.0058357,
+    "lon": 77.6281321
+  },
+  "North Bangalore": {
+    "lat": 13.0439323,
+    "lon": 77.6254268
+  },
+  "Nagawara": {
+    "lat": 13.0422794,
+    "lon": 77.6248577
+  },
+  "Hennur": {
+    "lat": 13.037077,
+    "lon": 77.6413572
+  },
+  "Kalyan Nagar": {
+    "lat": 13.0221416,
+    "lon": 77.6403368
+  },
+  "New BEL Road": {
+    "lat": 13.0216211,
+    "lon": 77.5723462
+  },
+  "Jakkur": {
+    "lat": 13.0784743,
+    "lon": 77.6068938
+  },
+  "Rammurthy Nagar": {},
+  "Thippasandra": {
+    "lat": 12.8744383,
+    "lon": 77.5579029
+  },
+  "Kaggadasapura": {
+    "lat": 12.9846713,
+    "lon": 77.6790908
+  },
+  "Hebbal": {
+    "lat": 13.0382184,
+    "lon": 77.5919
+  },
+  "Kengeri": {
+    "lat": 12.9176571,
+    "lon": 77.4837568
+  },
+  "Sankey Road": {
+    "lat": 13.0007492,
+    "lon": 77.5840735
+  },
+  "Sadashiv Nagar": {},
+  "Basaveshwara Nagar": {
+    "lat": 12.9911804,
+    "lon": 77.5448918
+  },
+  "Yeshwantpur": {
+    "lat": 13.0221838,
+    "lon": 77.5530824
+  },
+  "West Bangalore": {
+    "lat": 13.0096524,
+    "lon": 77.5530535
+  },
+  "Magadi Road": {
+    "lat": 12.9756527,
+    "lon": 77.5553548
+  },
+  "Yelahanka": {
+    "lat": 13.1085054,
+    "lon": 77.585333
+  },
+  "Sahakara Nagar": {
+    "lat": 13.0621474,
+    "lon": 77.5800614
+  },
+  "Peenya": {
+    "lat": 13.0330515,
+    "lon": 77.5332233
+  }
+}
