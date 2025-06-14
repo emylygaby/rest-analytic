@@ -20,7 +20,7 @@
 <h2>Estrutura das pastas</h2>
 
 <pre>
-RESTAURANT-ANALYSIS/
+REST-ANALYTIC/
 ├── restaurantes.db              # Banco de dados SQLite
 ├── zomato.csv                   # Dataset dos restaurantes
 ├── banco.py                     # Script de criação e população do banco
