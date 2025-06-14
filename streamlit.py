@@ -2,10 +2,8 @@ import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
 import plotly.express as px
-import plotly.graph_objects as go
 from collections import Counter
 import json
-import time
 from geopy.geocoders import Nominatim
 
 # --- CONFIGURAÇÃO DO APP ---
@@ -23,87 +21,68 @@ def load_data():
     df = df.assign(
         rate=pd.to_numeric(df['rate'], errors='coerce'),
         approx_cost=pd.to_numeric(df['approx_cost'], errors='coerce'),
-        online_order=df['online_order'].str.lower().map({'yes':'Sim','no':'Não'})
+        online_order=df['online_order'].str.lower().map({'yes': 'Sim', 'no': 'Não'})
     )
     return df
-
-def build_filters(df, unique_suffix=""):
-    st.sidebar.header("🔍 Filtros")
-    for key in ['loc', 'r_type', 'cuisine']:
-        if key not in st.session_state:
-            st.session_state[key] = []
-    # Adicione um sufixo único à chave do botão
-    if st.sidebar.button(f"🔄 Resetar Filtros", key=f"reset_filters_button_{unique_suffix}"):
-        st.session_state.loc = []
-        st.session_state.r_type = []
-        st.session_state.cuisine = []
-
-    locs = sorted(df['location'].dropna().unique())
-    types = sorted(df['rest_type'].dropna().unique())
-    cuisines = sorted({c.strip() for row in df['cuisines'].dropna().str.split(',') for c in row})
-
-    sel_loc = st.sidebar.multiselect("Bairro", locs, key=f'loc_{unique_suffix}')
-    sel_type = st.sidebar.multiselect("Tipo de Restaurante", types, key=f'r_type_{unique_suffix}')
-    sel_cuis = st.sidebar.multiselect("Culinária", cuisines, key=f'cuisine_{unique_suffix}')
-
-    filtered = df.copy()
-    if sel_loc:
-        filtered = filtered[filtered['location'].isin(sel_loc)]
-    if sel_type:
-        filtered = filtered[filtered['rest_type'].isin(sel_type)]
-    if sel_cuis:
-        filtered = filtered.assign(cuisine_list=filtered['cuisines'].str.split(','))
-        filtered = filtered.explode('cuisine_list')
-        filtered = filtered[filtered['cuisine_list'].str.strip().isin(sel_cuis)]
-    return filtered
 
 def load_coords(df, cache_path="bairro_coords.json"):
     try:
         with open(cache_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except FileNotFoundError:
-        if st.sidebar.button("🗺️ Gerar Coordenadas dos Bairros", key="generate_coords_button"):
-            def build_coords(df, cache_path):
-                geolocator = Nominatim(user_agent="geoapiExercises")
-                coords = {}
-                for location in df['location'].dropna().unique():
-                    try:
-                        loc = geolocator.geocode(location)
-                        if loc:
-                            coords[location] = {'lat': loc.latitude, 'lon': loc.longitude}
-                    except Exception as e:
-                        st.warning(f"Erro ao buscar coordenadas para {location}: {e}")
-                with open(cache_path, 'w', encoding='utf-8') as f:
-                    json.dump(coords, f, ensure_ascii=False, indent=4)
-                return coords
-            return build_coords(df, cache_path)
         st.sidebar.warning("Coordenadas não encontradas. Clique no botão para gerar JSON.")
+        if st.sidebar.button("🗺️ Gerar Coordenadas dos Bairros"):
+            geolocator = Nominatim(user_agent="geoapiExercises")
+            coords = {}
+            for location in df['location'].dropna().unique():
+                try:
+                    loc = geolocator.geocode(location)
+                    if loc:
+                        coords[location] = {'lat': loc.latitude, 'lon': loc.longitude}
+                except Exception as e:
+                    st.warning(f"Erro ao buscar coordenadas para {location}: {e}")
+            with open(cache_path, 'w', encoding='utf-8') as f:
+                json.dump(coords, f, ensure_ascii=False, indent=4)
+            return coords
         return {}
 
-def paginate_dataframe(df, page_size=10):
-    page = st.number_input("Página", min_value=1, max_value=(len(df) // page_size) + 1, step=1)
-    start_idx = (page - 1) * page_size
-    end_idx = start_idx + page_size
-    return df.iloc[start_idx:end_idx]
+# --- SIDEBAR - FILTROS ---
+st.sidebar.header("🔍 Filtros")
+if st.sidebar.button("🔄 Resetar Filtros"):
+    st.session_state.loc = []
+    st.session_state.r_type = []
+    st.session_state.cuisine = []
 
-# --- EXECUÇÃO PRINCIPAL ---
+for key in ['loc', 'r_type', 'cuisine']:
+    if key not in st.session_state:
+        st.session_state[key] = []
+
 df = load_data()
 coords = load_coords(df)
-filtered = build_filters(df)
+
+locs = sorted(df['location'].dropna().unique())
+types = sorted(df['rest_type'].dropna().unique())
+cuisines = sorted({c.strip() for row in df['cuisines'].dropna().str.split(',') for c in row})
+
+sel_loc = st.sidebar.multiselect("Bairro", locs, key='loc')
+sel_type = st.sidebar.multiselect("Tipo de Restaurante", types, key='r_type')
+sel_cuis = st.sidebar.multiselect("Culinária", cuisines, key='cuisine')
+
+filtered = df.copy()
+if sel_loc:
+    filtered = filtered[filtered['location'].isin(sel_loc)]
+if sel_type:
+    filtered = filtered[filtered['rest_type'].isin(sel_type)]
+if sel_cuis:
+    filtered = filtered.assign(cuisine_list=filtered['cuisines'].str.split(','))
+    filtered = filtered.explode('cuisine_list')
+    filtered = filtered[filtered['cuisine_list'].str.strip().isin(sel_cuis)]
+
 df_valid = filtered.dropna(subset=['rate', 'approx_cost'])
 
-# Paletas padronizadas globais (devem ser mantidas no script principal)
 COLOR_SCALE = ['#4B0082', '#6A0DAD', '#8A2BE2', '#7B68EE', '#4169E1', '#1E90FF', '#00BFFF']
-PALETT_HEAT = px.colors.sequential.Blues
 
-
-filtered_tab1 = build_filters(df, unique_suffix="tab1")
-filtered_tab2 = build_filters(df, unique_suffix="tab2")
-filtered_tab3 = build_filters(df, unique_suffix="tab3")
-filtered_tab4 = build_filters(df, unique_suffix="tab4")
-filtered_tab5 = build_filters(df, unique_suffix="tab5")
-
-# Abas do dashboard
+# --- ABAS ---
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📊 Visão Geral",
     "📍 Oferta/Mix",
@@ -204,11 +183,11 @@ def show_overview(filtered, df_valid):
 # Visão Geral
 with tab1:
     st.header("📊 Visão Geral")
-    # Usa filtered_tab1
-    df_valid1 = filtered_tab1.dropna(subset=['rate','approx_cost'])
-    show_overview(filtered_tab1, df_valid1)
+    # Usa filtered
+    df_valid = filtered.dropna(subset=['rate','approx_cost'])
+    show_overview(filtered, df_valid)
 
-    # Aplica faixa de preço apenas em filtered_tab1
+    # Aplica faixa de preço apenas em filtered
     def faixa_preco(custo):
         if pd.isna(custo):
             return None
@@ -219,17 +198,17 @@ with tab1:
         else:
             return "Premium"
 
-    filtered_tab1['faixa_preco'] = filtered_tab1['approx_cost'].apply(faixa_preco)
-    df_valid1['faixa_preco'] = df_valid1['approx_cost'].apply(faixa_preco)
+    filtered['faixa_preco'] = filtered['approx_cost'].apply(faixa_preco)
+    df_valid['faixa_preco'] = df_valid['approx_cost'].apply(faixa_preco)
 
     # Big Numbers para faixas de custo
     col1, col2, col3 = st.columns(3)
-    col1.metric("🍽️ Econômicos",  filtered_tab1[filtered_tab1['faixa_preco']=='Econômico'].shape[0])
-    col2.metric("💼 Intermediários", filtered_tab1[filtered_tab1['faixa_preco']=='Intermediário'].shape[0])
-    col3.metric("🍷 Premium",       filtered_tab1[filtered_tab1['faixa_preco']=='Premium'].shape[0])
+    col1.metric("🍽️ Econômicos",  filtered[filtered['faixa_preco']=='Econômico'].shape[0])
+    col2.metric("💼 Intermediários", filtered[filtered['faixa_preco']=='Intermediário'].shape[0])
+    col3.metric("🍷 Premium",       filtered[filtered['faixa_preco']=='Premium'].shape[0])
 
     # Tabela de distribuição por faixa de preço
-    faixa_preco_table = filtered_tab1[["name","approx_cost","rate","faixa_preco"]].dropna()
+    faixa_preco_table = filtered[["name","approx_cost","rate","faixa_preco"]].dropna()
     faixa_preco_table = faixa_preco_table.rename(columns={
         "name": "Nome do Restaurante",
         "approx_cost": "Custo Aproximado (₹)",
@@ -309,7 +288,7 @@ with tab3:
     if filtered.empty:
         st.info("Nenhum dado disponível para avaliação de qualidade.")
     else:
-        df_q = filtered.dropna(subset=['votes','rate'])
+        df_q = filtered.dropna(subset=['votes', 'rate'])
 
         st.markdown("""
         O gráfico a seguir mostra os **20 restaurantes mais votados**, com destaque para avaliação média.
