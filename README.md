@@ -36,6 +36,7 @@ REST-ANALYTIC/
 <h2>Funcionalidades</h2>
 
 <h3>📊 Visão Geral</h3>
+<img src="./img/VISAO GERAL.gif" alt="Demonstração do Dashboard Principal" />
 <ul>
   <li>Métricas principais: total de restaurantes, nota média, total de votos e custo médio.</li>
   <li>Distribuição de avaliações através de histograma interativo.</li>
@@ -48,6 +49,7 @@ REST-ANALYTIC/
 <br>
 
 <h3>📍 Oferta e Mix</h3>
+<img src="./img/OFERTAS.gif" alt="Demonstração da Página de Mix dos Restaurantes" />
 <ul>
   <li><strong>Densidade por Bairro</strong>: Visualiza distribuição de tipos de restaurantes por localização.</li>
   <li><strong>Mix de Culinárias</strong>: Top 50 nichos de cozinhas mais atendidos com gráfico horizontal.</li>
@@ -58,6 +60,7 @@ REST-ANALYTIC/
 <br>
 
 <h3>🌟 Qualidade</h3>
+<img src="./img/QUALIDADE.gif" alt="Demonstração da Página de Qualidade" />
 <ul>
   <li><strong>Top 20 Mais Votados</strong>: Restaurantes com maior engajamento e suas avaliações.</li>
   <li><strong>Correlação Qualidade x Popularidade</strong>: Análise da relação entre votos e notas.</li>
@@ -68,6 +71,7 @@ REST-ANALYTIC/
 <br>
 
 <h3>📈 Expansão</h3>
+<img src="./img/EXPANSAO.gif" alt="Demonstração da Página de Expansão" />
 <ul>
   <li><strong>Análise por Faixa de Custo</strong>: Avaliação média por segmento de preço.</li>
   <li><strong>Oportunidades de Mercado</strong>: Identificação de nichos com potencial.</li>
@@ -78,6 +82,7 @@ REST-ANALYTIC/
 <br>
 
 <h3>🧠 Inteligência</h3>
+<img src="./img/INTELIGENCIA.gif" alt="Demonstração da Página de Inteligência" />
 <ul>
   <li><strong>Pratos Mais Apreciados</strong>: Análise dos pratos mais citados em gráfico de pizza.</li>
   <li><strong>Mapa Geográfico</strong>: Visualização das avaliações por bairro em mapa interativo.</li>
@@ -88,6 +93,7 @@ REST-ANALYTIC/
 <br>
 
 <h3>Filtros Avançados</h3>
+<img src="./img/BOTAO-DE-RESETAR-FILTROS.gif" alt="Demonstração da Página de Filtros Principais" />
 <ul>
   <li>Sidebar com filtros por bairro, tipo de restaurante e culinária.</li>
   <li>Botão para resetar todos os filtros aplicados.</li>
