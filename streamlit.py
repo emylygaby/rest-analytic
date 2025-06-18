@@ -8,7 +8,7 @@ from geopy.geocoders import Nominatim
 
 # --- CONFIGURAÇÃO DO APP ---
 st.set_page_config(
-    page_title="Painel de Restaurantes - Versão Aprimorada",
+    page_title="Painel de Restaurantes",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -47,6 +47,7 @@ def load_coords(df, cache_path="bairro_coords.json"):
         return {}
 
 # --- SIDEBAR - FILTROS ---
+st.sidebar.image("restaurant-74.png", width=300 ,use_container_width=True)
 st.sidebar.header("🔍 Filtros")
 if st.sidebar.button("🔄 Resetar Filtros"):
     st.session_state.loc = []
@@ -82,7 +83,7 @@ df_valid = filtered.dropna(subset=['rate', 'approx_cost'])
 
 COLOR_SCALE = ['#4B0082', '#6A0DAD', '#8A2BE2', '#7B68EE', '#4169E1', '#1E90FF', '#00BFFF']
 
-# --- ABAS ---
+#--- ABAS ---
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📊 Visão Geral",
     "📍 Oferta/Mix",
@@ -98,14 +99,11 @@ def show_overview(filtered, df_valid):
         return
 
     with st.container():
+        #big numbers
         c1, c2, c3, c4 = st.columns(4)
-        # Total de restaurantes: sempre sobre o 'filtered' completo
         c1.metric("Total Restaurantes", filtered.shape[0])
-        # Nota média: apenas onde há avaliação
         c2.metric("Nota Média", f"{df_valid['rate'].mean():.2f}")
-        # Total de votos: sobre tudo que passou no filtro (mesmo sem nota/custo)
         c3.metric("Total Votos", f"{filtered['votes'].sum():,}")
-        # Custo médio: apenas onde há custo informado
         c4.metric("Custo Médio (para 2 pessoas)", f"₹ {df_valid['approx_cost'].mean():.2f}")
 
     with st.container():
@@ -119,7 +117,7 @@ def show_overview(filtered, df_valid):
             st.markdown("**Conclusão:** A maioria dos restaurantes concentra-se entre nota 3.5 e 4.5, com poucos extremos.")
 
         with col2:
-            st.subheader("Distribuição de Custo (ECDF)")
+            st.subheader("Distribuição de Custo")
             # Gráfico ECDF para distribuição de custo
             fig2 = px.ecdf(
             df_valid,
@@ -128,7 +126,7 @@ def show_overview(filtered, df_valid):
                 'approx_cost':'Custo Aproximado (INR)',
                 'ecdf':'Proporção de Restaurantes'
             },
-            title="ECDF: Distribuição de Custo dos Restaurantes"
+            title="Distribuição dos Restaurantes"
             )
             # usa a segunda cor da paleta
             fig2.update_traces(line_color=COLOR_SCALE[1])
@@ -149,7 +147,7 @@ def show_overview(filtered, df_valid):
                                             labels=['<100','101-200','201-400','401-600','601-1k','1k-2k','2k+'])
             heat = df_valid.groupby(['faixa_custo', 'rate']).size().reset_index(name='count')
 
-            # Novo gráfico de barras empilhadas
+            # gráfico de barras empilhadas
             fig3 = px.bar(
                 heat,
                 x='faixa_custo',
@@ -183,44 +181,8 @@ def show_overview(filtered, df_valid):
 # Visão Geral
 with tab1:
     st.header("📊 Visão Geral")
-    # Usa filtered
     df_valid = filtered.dropna(subset=['rate','approx_cost'])
     show_overview(filtered, df_valid)
-
-    # Aplica faixa de preço apenas em filtered
-    def faixa_preco(custo):
-        if pd.isna(custo):
-            return None
-        elif custo <= 200:
-            return "Econômico"
-        elif custo <= 400:
-            return "Intermediário"
-        else:
-            return "Premium"
-
-    filtered['faixa_preco'] = filtered['approx_cost'].apply(faixa_preco)
-    df_valid['faixa_preco'] = df_valid['approx_cost'].apply(faixa_preco)
-
-    # Big Numbers para faixas de custo
-    col1, col2, col3 = st.columns(3)
-    col1.metric("🍽️ Econômicos",  filtered[filtered['faixa_preco']=='Econômico'].shape[0])
-    col2.metric("💼 Intermediários", filtered[filtered['faixa_preco']=='Intermediário'].shape[0])
-    col3.metric("🍷 Premium",       filtered[filtered['faixa_preco']=='Premium'].shape[0])
-
-    # Tabela de distribuição por faixa de preço
-    faixa_preco_table = filtered[["name","approx_cost","rate","faixa_preco"]].dropna()
-    faixa_preco_table = faixa_preco_table.rename(columns={
-        "name": "Nome do Restaurante",
-        "approx_cost": "Custo Aproximado (₹)",
-        "rate": "Nota",
-        "faixa_preco": "Faixa de Preço"
-    })
-    st.subheader("Distribuição de Restaurantes por Faixa de Preço")
-    faixa_sel = st.selectbox("Selecione a faixa de preço:", ["Todos","Econômico","Intermediário","Premium"], key='faixa_tab1')
-    if faixa_sel != "Todos":
-        faixa_preco_table = faixa_preco_table[faixa_preco_table['Faixa de Preço']==faixa_sel]
-    st.dataframe(faixa_preco_table)
-
 
 
 # Oferta e Mix
@@ -257,23 +219,30 @@ with tab2:
 
     with st.container():
         st.subheader("🍽️ Top 50 Nichos de Cozinhas Mais Atendidos")
-        # Contagem de cozinhas
+        #contagem de cozinhas
         cozinhas_geral = filtered["cuisines"].value_counts().reset_index()
         cozinhas_geral.columns = ["Tipo de Cozinha", "Quantidade de Restaurantes"]
 
-        # Ordena pelos mais atendidos e seleciona os 50 primeiros
+        #ordena pelos mais atendidos e seleciona os 50 primeiros
         cozinhas_geral = cozinhas_geral.sort_values(by="Quantidade de Restaurantes", ascending=False).head(50)
 
-        # Gráfico de barras horizontais
+        #coluna de cor para alternar as cores da paleta
+        cozinhas_geral["Cor"] = cozinhas_geral.index % len(COLOR_SCALE)
+        cozinhas_geral["Cor"] = cozinhas_geral["Cor"].apply(lambda i: COLOR_SCALE[i])
+
+        #gráfico de barras horizontais
         fig = px.bar(
-            cozinhas_geral,
+            cozinhas_geral.sort_values(by="Quantidade de Restaurantes", ascending=True),  # Menores no final
             x="Quantidade de Restaurantes",
             y="Tipo de Cozinha",
             orientation="h",
             title="Top 50 Nichos de Cozinhas Mais Atendidos",
             height=800,
-            color_discrete_sequence=COLOR_SCALE
+            color="Tipo de Cozinha",  # Cada barra recebe uma cor diferente
+            color_discrete_sequence=COLOR_SCALE * 10  # Repete a paleta se necessário
         )
+        fig.update_layout(yaxis={'categoryorder':'total ascending'})  # Maiores no topo
+
         st.plotly_chart(fig, use_container_width=True)
 
 
@@ -291,7 +260,7 @@ with tab3:
         df_q = filtered.dropna(subset=['votes', 'rate'])
 
         st.markdown("""
-        O gráfico a seguir mostra os **20 restaurantes mais votados**, com destaque para avaliação média.
+        O gráfico a seguir mostra os **restaurantes mais votados**, com destaque para avaliação média.
         """)
 
         top20 = df_q.nlargest(20, 'votes')
@@ -365,23 +334,41 @@ with tab4:
         st.markdown("""
         - Restaurantes nas faixas mais altas (>1k) tendem a ter avaliações superiores.
         - Faixas econômicas até ₹200 também mostram boa percepção.
-        - Faixas intermediárias (<600) são oportunidades para diferenciação.
+        - Faixas intermediárias (<500) são oportunidades para diferenciação.
         """)
 
         st.subheader("📍 Distribuição de Restaurantes por Faixa de Preço")
-        faixa_dist = df_exp['cost_range'].value_counts().sort_index().reset_index()
-        faixa_dist.columns = ['Faixa de Custo', 'Quantidade']
-        fig2 = px.bar(
-            faixa_dist,
-            x='Faixa de Custo',
-            y='Quantidade',
-            text='Quantidade',
-            color='Faixa de Custo',
-            color_discrete_sequence=COLOR_SCALE,
-            title="Distribuição de Restaurantes por Faixa de Custo"
-        )
-        fig2.update_layout(showlegend=False)
-        st.plotly_chart(fig2, use_container_width=True)
+        def faixa_preco(custo):
+            if pd.isna(custo):
+                return None
+            elif custo <= 200:
+                return "Econômico"
+            elif custo <= 500:
+                return "Intermediário"
+            else:
+                return "Premium"
+
+        filtered['faixa_preco'] = filtered['approx_cost'].apply(faixa_preco)
+        df_valid['faixa_preco'] = df_valid['approx_cost'].apply(faixa_preco)
+
+        # Big Numbers para faixas de custo
+        col1, col2, col3 = st.columns(3)
+        col1.metric("🍽️ Econômicos",  filtered[filtered['faixa_preco']=='Econômico'].shape[0])
+        col2.metric("💼 Intermediários", filtered[filtered['faixa_preco']=='Intermediário'].shape[0])
+        col3.metric("🍷 Premium",       filtered[filtered['faixa_preco']=='Premium'].shape[0])
+
+        # Tabela de distribuição por faixa de preço
+        faixa_preco_table = filtered[["name","approx_cost","rate","faixa_preco"]].dropna()
+        faixa_preco_table = faixa_preco_table.rename(columns={
+            "name": "Nome do Restaurante",
+            "approx_cost": "Custo Aproximado (₹)",
+            "rate": "Nota",
+            "faixa_preco": "Faixa de Preço"
+        })
+        faixa_sel = st.selectbox("Selecione a faixa de preço:", ["Todos","Econômico","Intermediário","Premium"], key='faixa_tab1')
+        if faixa_sel != "Todos":
+            faixa_preco_table = faixa_preco_table[faixa_preco_table['Faixa de Preço']==faixa_sel]
+        st.dataframe(faixa_preco_table)
 
         st.markdown("**Conclusão:** A maioria dos restaurantes está concentrada nas faixas intermediárias, indicando potencial saturação e oportunidades em extremos (baixo ou alto custo).")
     if filtered.empty:
